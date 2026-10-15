@@ -28,6 +28,25 @@ const RoomWarmup = ({ onWarmupComplete, isLowTier }) => {
     // Wait for rooms to render a few frames, then compile and unmount
     const warmupStart = useRef(performance.now());
 
+    const finishWarmup = () => {
+        if (completeFired.current) return;
+        completeFired.current = true;
+        const warmupDuration = ((performance.now() - warmupStart.current) / 1000).toFixed(2);
+        
+        requestAnimationFrame(() => {
+            setIsDone(true);
+            onWarmupComplete?.();
+        });
+    };
+
+    // Absolute fallback: signal warmup complete after 1200ms no matter what
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            finishWarmup();
+        }, 1200);
+        return () => clearTimeout(timer);
+    }, [onWarmupComplete]);
+
     useFrame(() => {
         if (isDone || completeFired.current) return;
 
@@ -36,40 +55,31 @@ const RoomWarmup = ({ onWarmupComplete, isLowTier }) => {
 
         frameCount.current++;
 
-        // For low tier, we skip warmup, but still wait 1 frame for entrance to mount
-        const targetFrames = isLowTier ? 1 : 3;
+        // Wait 1 frame for entrance to mount
+        const targetFrames = isLowTier ? 1 : 2;
 
         if (frameCount.current >= targetFrames) {
-            completeFired.current = true;
-
-            const finishWarmup = () => {
-                const warmupDuration = ((performance.now() - warmupStart.current) / 1000).toFixed(2);
-                // console.info(`🔥 GPU/Shader Warmup Complete: ${warmupDuration}s ${isLowTier ? '(Bypassed for LOW tier)' : ''}`);
-                
-                requestAnimationFrame(() => {
-                    setIsDone(true);
-                    onWarmupComplete?.();
-                });
-            };
-
-            // On low tier, bypass intense gl.compileAsync to save memory and avoid Context Lost
+            // On low tier, bypass gl.compile to save memory
             if (isLowTier) {
                 finishWarmup();
                 return;
             }
 
-            // Force compile all shaders in the scene (including warm-up rooms)
-            // Use 2026 compileAsync to avoid blocking the main thread!
+            // Force compile all shaders with a 500ms safety timeout
             if (gl.compileAsync) {
-                gl.compileAsync(scene, camera, scene)
-                    .then(finishWarmup)
-                    .catch((err) => {
-                        console.error('Async compilation failed, falling back to sync', err);
-                        gl.compile(scene, camera);
-                        finishWarmup();
-                    });
+                const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 500));
+                Promise.race([
+                    gl.compileAsync(scene, camera, scene).catch(() => {}),
+                    timeoutPromise
+                ]).then(() => {
+                    finishWarmup();
+                });
             } else {
-                gl.compile(scene, camera);
+                try {
+                    gl.compile(scene, camera);
+                } catch (e) {
+                    // Ignore compilation errors during warmup
+                }
                 finishWarmup();
             }
         }

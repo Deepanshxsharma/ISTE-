@@ -206,36 +206,58 @@ const Preloader = ({ onComplete, ready }) => {
   // ----------------------------------------
   // SMOOTH LOADING LOGIC
   // ----------------------------------------
+  const exitTimerRef = useRef(null);
+
   useEffect(() => {
     let newTarget = 0;
     if (active) {
       newTarget = (realProgress / 100) * 85;
     } else {
-      if (ready) {
-        newTarget = 100;
-      } else {
-        newTarget = 90;
-      }
+      // Once assets finish, always advance to 100%
+      newTarget = 100;
     }
 
     setTargetProgress(prev => Math.max(prev, newTarget));
   }, [realProgress, active, ready]);
 
+  // Overall failsafe: ensure preloader never hangs longer than 4.5s
+  useEffect(() => {
+    const maxTimer = setTimeout(() => {
+      setTargetProgress(100);
+      if (!exitStarted.current) {
+        setTimeout(() => {
+          if (!exitStarted.current) {
+            startExit();
+          }
+        }, 500);
+      }
+    }, 4500);
+    return () => clearTimeout(maxTimer);
+  }, []);
+
   // Handle Pencil Sound & Exit checking dynamically
   const checkProgressTriggers = (val) => {
     // Pencil Sound
-    if (val < 99 && !pencilSoundRef.current) {
+    if (val < 98 && !pencilSoundRef.current) {
       pencilSoundRef.current = play('pencil', { loop: true, volume: 0.5 });
     }
-    else if (val >= 99 && pencilSoundRef.current) {
+    else if (val >= 98 && pencilSoundRef.current) {
       pencilSoundRef.current.stop();
       pencilSoundRef.current = null;
     }
 
     // Exit phase
-    if (val >= 99.5 && readyRef.current && !exitStarted.current) {
-      exitStarted.current = true;
-      startExit();
+    if (val >= 99 && !exitStarted.current) {
+      if (readyRef.current) {
+        startExit();
+      } else if (!exitTimerRef.current) {
+        // Fallback: wait at most 700ms for ready before forcing exit
+        exitTimerRef.current = setTimeout(() => {
+          if (!exitStarted.current) {
+            startExit();
+          }
+        }, 700);
+      }
     }
   };
 
@@ -245,6 +267,9 @@ const Preloader = ({ onComplete, ready }) => {
         pencilSoundRef.current.stop();
         pencilSoundRef.current = null;
       }
+      if (exitTimerRef.current) {
+        clearTimeout(exitTimerRef.current);
+      }
     };
   }, []);
 
@@ -253,13 +278,13 @@ const Preloader = ({ onComplete, ready }) => {
     let duration = 0.5;
 
     if (distance > 60) {
-      duration = 1.5;
+      duration = 1.2;
     } else if (distance > 30) {
-      duration = 1.0;
+      duration = 0.8;
     } else if (distance > 10) {
-      duration = 0.6;
+      duration = 0.5;
     } else if (distance > 0) {
-      duration = 0.4;
+      duration = 0.3;
     }
 
     gsap.to(trackerRef.current, {
@@ -293,34 +318,35 @@ const Preloader = ({ onComplete, ready }) => {
   // ----------------------------------------
   const exitStarted = useRef(false);
 
-  // Fallback trigger if ready becomes true AFTER 99.5% reached
+  // Fallback trigger if ready becomes true after progress has reached near completion
   useEffect(() => {
-    if (displayProgressRef.current >= 99.5 && ready && !exitStarted.current) {
-      exitStarted.current = true;
+    if (displayProgressRef.current >= 95 && ready && !exitStarted.current) {
       startExit();
     }
   }, [ready]);
 
   const startExit = () => {
+    if (exitStarted.current) return;
     exitStarted.current = true;
 
     if (pencilSoundRef.current) {
       pencilSoundRef.current.stop();
       pencilSoundRef.current = null;
     }
-    play('tear', { volume: 0.8 });
+    try {
+      play('tear', { volume: 0.8 });
+    } catch (e) {}
+
+    // Hard fallback to guarantee completion
+    const completeTimeout = setTimeout(() => {
+      setIsDone(true);
+      onComplete?.();
+    }, 2400);
 
     const tl = gsap.timeline({
       onComplete: () => {
+        clearTimeout(completeTimeout);
         setIsDone(true);
-        
-        const exitEnd = performance.now();
-        const totalDuration = ((exitEnd - loadStartTime.current) / 1000).toFixed(2);
-        // console.group("⏱️ Portfolio Loading Performance");
-        // console.log(`- Start: %c${loadStartTime.current.toFixed(0)}ms`, "color: #888");
-        // console.log(`- Total Duration: %c${totalDuration}s`, "color: #00ff00; font-weight: bold;");
-        // console.groupEnd();
-        
         onComplete?.();
       }
     });
@@ -329,25 +355,31 @@ const Preloader = ({ onComplete, ready }) => {
     tl.to({}, { duration: 0.1 });
 
     // 2. Tear Apart
-    tl.to(leftHalfRef.current, {
-      xPercent: -100,
-      rotation: -2,
-      duration: 1.8,
-      ease: "power3.inOut"
-    }, 'tear');
+    if (leftHalfRef.current) {
+      tl.to(leftHalfRef.current, {
+        xPercent: -100,
+        rotation: -2,
+        duration: 1.6,
+        ease: "power3.inOut"
+      }, 'tear');
+    }
 
-    tl.to(rightHalfRef.current, {
-      xPercent: 100,
-      rotation: 2,
-      duration: 1.8,
-      ease: "power3.inOut"
-    }, 'tear');
+    if (rightHalfRef.current) {
+      tl.to(rightHalfRef.current, {
+        xPercent: 100,
+        rotation: 2,
+        duration: 1.6,
+        ease: "power3.inOut"
+      }, 'tear');
+    }
 
     // 3. Fade container
-    tl.to(containerRef.current, {
-      opacity: 0,
-      duration: 0.5
-    }, '-=0.5');
+    if (containerRef.current) {
+      tl.to(containerRef.current, {
+        opacity: 0,
+        duration: 0.5
+      }, '-=0.4');
+    }
   };
 
   if (isDone) return null;

@@ -123,6 +123,56 @@ function DocumentMetaBridge() {
   return null;
 }
 
+import { Component } from 'react';
+
+class CanvasErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("Canvas error caught by ErrorBoundary:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          textAlign: 'center',
+          fontFamily: "'Inter', sans-serif",
+          color: '#111',
+          zIndex: 9999
+        }}>
+          <h2>Failed to initialize 3D scene.</h2>
+          <p style={{ color: '#666', marginTop: '0.5rem' }}>{this.state.error?.message || 'Hardware acceleration or WebGL issue'}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            style={{
+              marginTop: '1.2rem',
+              padding: '10px 22px',
+              background: '#111',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontWeight: 600
+            }}
+          >
+            Reload Page
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function AppContent() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
@@ -147,9 +197,10 @@ function AppContent() {
         <DocumentMetaBridge />
         <GlobalAudioEnabler />
         <div className="app">
-          {/* Full screen 3D Canvas */}
+          {/* Full screen 3D Canvas with error boundary */}
           <div className="canvas-wrapper">
-            <Canvas
+            <CanvasErrorBoundary>
+              <Canvas
               camera={{
                 position: [0, 0.2, 28],
                 fov: 60,
@@ -161,7 +212,7 @@ function AppContent() {
                 alpha: false,
                 powerPreference: settings.powerPreference,
                 localClippingEnabled: true,
-                failIfMajorPerformanceCaveat: true
+                failIfMajorPerformanceCaveat: false
               }}
               dpr={settings.dpr}
               shadows={settings.shadows}
@@ -188,6 +239,7 @@ function AppContent() {
                 <Preload all />
               </Suspense>
             </Canvas>
+            </CanvasErrorBoundary>
           </div>
 
           {/* Navigation UI - Hamburger, Map, Back, Audio */}
