@@ -12,28 +12,28 @@ import { useScene } from '../context/SceneContext';
 const ROOM_META = {
     null: {
         path: '/',
-        title: 'Deepansh Sharma | Beyond The Screen — Creative 3D Portfolio',
-        description: 'Interactive 3D universe of Deepansh Sharma, CSE student at SRM University. Exploring full-stack engineering, Computer Vision ANPR, AI assistants, and IoT.',
+        title: 'Deepansh Sharma — Beyond the Screen',
+        description: 'Interactive 3D portfolio of Deepansh Sharma, B.Tech CSE student at SRM University: app development, computer vision for parking, and AI assistant experiments.',
     },
     about: {
         path: '/about',
-        title: 'About — Deepansh Sharma | SRM CSE & Engineering Journey',
-        description: 'Learn about Deepansh Sharma — B.Tech Computer Science and Engineering student at SRM University, full-stack developer, and computer vision researcher.',
+        title: 'About — Deepansh Sharma',
+        description: 'Deepansh Sharma — B.Tech Computer Science and Engineering student at SRM University and aspiring full-stack app developer.',
     },
     gallery: {
         path: '/gallery',
-        title: 'Gallery & Projects — Deepansh Sharma Portfolio',
-        description: 'Explore interactive 3D cards of Deepansh Sharma\'s engineering projects: Smart Parking, ANPR Optical Pipelines, Gemini Multimodal AI, and IoT Nodes.',
+        title: 'Projects — Deepansh Sharma',
+        description: 'TechXpert My Parking, TechXPark ANPR, Hi TechXPert, Jarvis and an OCR attendance calculator.',
     },
     studio: {
         path: '/studio',
-        title: 'Project Labs & Experiments — Deepansh Sharma',
-        description: 'Explore interactive floating monitors showcasing live pipelines, architecture diagrams, computer vision demos, and microcontroller telemetry.',
+        title: 'Project Labs — Deepansh Sharma',
+        description: 'How the projects work: number-plate recognition, slot occupancy, AI assistants and an OCR web app.',
     },
     contact: {
         path: '/contact',
         title: 'Contact — Deepansh Sharma',
-        description: 'Get in touch with Deepansh Sharma. Connect for full-stack opportunities, computer vision projects, and engineering collaborations.',
+        description: 'Get in touch with Deepansh Sharma: deepanshsharma622@gmail.com.',
     },
 };
 
@@ -46,12 +46,18 @@ const PATH_TO_ROOM = {
     '/contact': 'contact',
 };
 
+// The site may be served from a sub-path (e.g. /ISTE-/ on GitHub Pages).
+const BASE_PATH = import.meta.env.BASE_URL.replace(/\/+$/, '');
+const withBase = (path) => `${BASE_PATH}${path}`;
+
 /**
  * Returns the room ID that the initial URL points to (for deep linking).
  * Call this once at app startup to determine if we need to auto-teleport.
  */
 export function getInitialRoomFromUrl() {
-    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+    let path = window.location.pathname;
+    if (BASE_PATH && path.startsWith(BASE_PATH)) path = path.slice(BASE_PATH.length);
+    path = path.replace(/\/+$/, '') || '/';
     return PATH_TO_ROOM[path] !== undefined ? PATH_TO_ROOM[path] : null;
 }
 
@@ -83,21 +89,21 @@ export function useDocumentMeta() {
 
         const origin = window.location.origin;
         const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute('content', `${origin}${meta.path}`);
+        if (ogUrl) ogUrl.setAttribute('content', `${origin}${withBase(meta.path)}`);
 
         // Update canonical link to ensure virtual routes are correctly indexable as separate pages
         const canonicalTag = document.querySelector('link[rel="canonical"]');
         if (canonicalTag) {
-            canonicalTag.setAttribute('href', `${origin}${meta.path}`);
+            canonicalTag.setAttribute('href', `${origin}${withBase(meta.path)}`);
         }
 
         // Push to browser history (only if not handling a popstate event and room actually changed)
         if (!isHandlingPopState.current && lastPushedRoom.current !== currentRoom) {
             // Use replaceState for the very first load, pushState for subsequent navigations
             if (lastPushedRoom.current === undefined) {
-                window.history.replaceState({ room: currentRoom }, '', meta.path);
+                window.history.replaceState({ room: currentRoom }, '', withBase(meta.path));
             } else {
-                window.history.pushState({ room: currentRoom }, '', meta.path);
+                window.history.pushState({ room: currentRoom }, '', withBase(meta.path));
             }
             lastPushedRoom.current = currentRoom;
         }

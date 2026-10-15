@@ -1,5 +1,6 @@
 import { useScene } from '../../context/SceneContext';
-import { useGalleryProjects, useStudioContent, useAwards } from '../../hooks/useSanityData';
+import { PROJECTS_DATA, ABOUT_OVERLAY_CARDS } from '../../config/portfolioData';
+import { CONTENT_DATA } from '../canvas/rooms/Studio/contentData';
 import '../../styles/ScreenReaderOverlay.scss';
 
 /**
@@ -12,10 +13,9 @@ import '../../styles/ScreenReaderOverlay.scss';
 const ScreenReaderOverlay = () => {
     const { hasEntered, isInRoom, currentRoom, teleportTo, requestExit } = useScene();
     
-    // Pobieranie danych do wygenerowania niewidocznego HTML-a dla SEO / robotów
-    const projects = useGalleryProjects();
-    const studio = useStudioContent();
-    const awards = useAwards();
+    const projects = PROJECTS_DATA;
+    const studio = CONTENT_DATA;
+    const aboutCards = Object.values(ABOUT_OVERLAY_CARDS);
 
     return (
         <div className="sr-overlay" role="complementary" aria-label="Accessible navigation for 3D portfolio">
@@ -26,11 +26,11 @@ const ScreenReaderOverlay = () => {
 
             {/* Main accessible navigation */}
             <nav id="sr-main-nav" className="sr-only" aria-label="Portfolio rooms">
-                <h1>ITom — Creative Developer Portfolio</h1>
+                <h1>Deepansh Sharma — Beyond the Screen</h1>
                 <h2>Portfolio Navigation</h2>
 
                 {!hasEntered && (
-                    <p>Welcome to ITom's interactive 3D portfolio. Click or press Enter on the doors to enter.</p>
+                    <p>Welcome to Deepansh Sharma's interactive 3D portfolio. Click or press Enter on the doors to enter.</p>
                 )}
 
                 {hasEntered && !isInRoom && (
@@ -77,24 +77,18 @@ const ScreenReaderOverlay = () => {
                         {currentRoom === 'about' && (
                             <div aria-label="About room content">
                                 <h3>About Me</h3>
-                                <p>This room contains my personal story, awards, journey milestones, and technology skills displayed as interactive balloons.</p>
-                                
-                                {awards && (
-                                    <section>
-                                        <h4>My Awards</h4>
+                                <p>This room covers my education, what I explore, and the tools I build with, shown on floating islands.</p>
+
+                                {aboutCards.map((card) => (
+                                    <section key={card.id}>
+                                        <h4>{card.title}</h4>
                                         <ul>
-                                            {awards.sotd && awards.sotd.items && awards.sotd.items.map((a, i) => (
-                                                <li key={i}>{a.label} - {a.date} {a.url && <a href={a.url}>View</a>}</li>
-                                            ))}
-                                            {awards.sotm && awards.sotm.items && awards.sotm.items.map((a, i) => (
-                                                <li key={i}>{a.label} - {a.date} {a.url && <a href={a.url}>View</a>}</li>
-                                            ))}
-                                            {awards.other && awards.other.items && awards.other.items.map((a, i) => (
-                                                <li key={i}>{a.label} - {a.date} {a.url && <a href={a.url}>View</a>}</li>
+                                            {card.items.map((a, i) => (
+                                                <li key={i}>{a.label} — {a.date}. {a.description} {a.url && <a href={a.url}>View</a>}</li>
                                             ))}
                                         </ul>
                                     </section>
-                                )}
+                                ))}
                             </div>
                         )}
                         {currentRoom === 'gallery' && (
@@ -118,13 +112,13 @@ const ScreenReaderOverlay = () => {
                         {currentRoom === 'contact' && (
                             <div aria-label="Contact room content">
                                 <h3>Contact Me</h3>
-                                <p>Find my social media links displayed as floating barrels. Click to visit my profiles on LinkedIn, GitHub, and other platforms.</p>
+                                <p>Floating barrels link to my GitHub and projects, and the message barrel opens an email to deepanshsharma622@gmail.com.</p>
                             </div>
                         )}
                         {currentRoom === 'studio' && (
                             <div aria-label="Studio room content">
                                 <h3>The Studio</h3>
-                                <p>Explore my experience and skills on rotating monitors. Click a monitor to read detailed information about my work.</p>
+                                <p>Project labs on rotating monitors. Click a monitor to read how each project works.</p>
 
                                 {studio && studio.length > 0 && (
                                     <ul>

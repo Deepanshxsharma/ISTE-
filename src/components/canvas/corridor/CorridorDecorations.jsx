@@ -26,7 +26,7 @@ const tempEuler = new THREE.Euler();
 const tempQuat = new THREE.Quaternion();
 
 
-const CABIN_SKETCH_URL = '/fonts/CabinSketch-Regular.ttf';
+const CABIN_SKETCH_URL = 'fonts/CabinSketch-Regular.ttf';
 
 const PictureContent = ({ imagePath, imagePaintedPath, width, height, isPainted }) => {
     const texture = useTexture(imagePath);
@@ -327,20 +327,20 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
     // =============================================
     // TEKSTURY DEKORACJI
     // =============================================
-    const frameTexture = useTexture('/textures/corridor/ramkanazdjecieduza.webp');
-    const framePaintedTexture = useTexture('/textures/corridor/ramkanazdjecieduza_painted.webp');
-    const standingFrameTexture = useTexture('/textures/corridor/ramkanazdjeciemala.webp');
-    const treeTexture = useTexture('/textures/corridor/drzewkowdoniczce.webp');
-    const grateTexture = useTexture('/textures/corridor/kratkawentylacyjna.webp');
-    const flowerTexture = useTexture('/textures/corridor/kwiatekwdoniczce.webp');
+    const frameTexture = useTexture('textures/corridor/ramkanazdjecieduza.webp');
+    const framePaintedTexture = useTexture('textures/corridor/ramkanazdjecieduza_painted.webp');
+    const standingFrameTexture = useTexture('textures/corridor/ramkanazdjeciemala.webp');
+    const treeTexture = useTexture('textures/corridor/drzewkowdoniczce.webp');
+    const grateTexture = useTexture('textures/corridor/kratkawentylacyjna.webp');
+    const flowerTexture = useTexture('textures/corridor/kwiatekwdoniczce.webp');
 
     // --- Ceiling Lights (punkty światła) ---
     // Tekstury lamp
-    const lampGrilleTexture = useTexture('/textures/corridor/kratanalampy.webp');
+    const lampGrilleTexture = useTexture('textures/corridor/kratanalampy.webp');
     // lampGrilleTexture.wrapS = lampGrilleTexture.wrapT = THREE.RepeatWrapping; 
     // lampGrilleTexture.repeat.set(1, 1);
 
-    const lampSideTexture = useTexture('/textures/corridor/bokilampy.webp');
+    const lampSideTexture = useTexture('textures/corridor/bokilampy.webp');
     lampSideTexture.wrapS = lampSideTexture.wrapT = THREE.RepeatWrapping;
     // Dopasowanie UV dla długiego boku
     lampSideTexture.repeat.set(1, 1);
@@ -380,7 +380,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             y: 0.3,                  // Wysokość na ścianie
             id: 'frame-1',
             // Custom setup for "rysuneknaobraz1.png"
-            image: '/textures/corridor/rysuneknaobraz1.webp',
+            image: 'textures/corridor/rysuneknaobraz1.webp',
             imageWidth: 1.1,
             imageHeight: 1.1,
             offsetFromWall: 0.1, // Przesunięcie bliżej środka korytarza (0.1 unit)
@@ -392,7 +392,7 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             height: 2.5 / 1.785,
             y: 0.2,
             id: 'frame-2',
-            image: '/textures/corridor/rysuneknaobrazek3.webp',
+            image: 'textures/corridor/rysuneknaobrazek3.webp',
             imageWidth: 1.7,
             imageHeight: 1,
             offsetFromWall: 0.1
@@ -428,12 +428,12 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
     // =============================================
     // STOLIK (TABLE)
     // =============================================
-    const woodTexture = useTexture('/textures/corridor/texturadrewnadonozekbiurka.webp');
-    const tableTopTexture = useTexture('/textures/corridor/gorastolika.webp');
+    const woodTexture = useTexture('textures/corridor/texturadrewnadonozekbiurka.webp');
+    const tableTopTexture = useTexture('textures/corridor/gorastolika.webp');
 
     // Tekstury szafki
-    const cabinetFrontTexture = useTexture('/textures/corridor/szafkaprzod.webp');
-    const cabinetRestTexture = useTexture('/textures/corridor/szafkaprzodgora.webp');
+    const cabinetFrontTexture = useTexture('textures/corridor/szafkaprzod.webp');
+    const cabinetRestTexture = useTexture('textures/corridor/szafkaprzodgora.webp');
 
     // Klonujemy teksturę dla nóg, żeby ją obrócić (bo user mówi że jest poziomo a ma być pionowo)
     const legTexture = useMemo(() => {

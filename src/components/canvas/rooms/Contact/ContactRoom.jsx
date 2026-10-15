@@ -113,13 +113,13 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
     }, [isExiting, isTeleporting, hidePopup]);
 
     // Load Sea Texture
-    const seaTexture = useTexture("/textures/contact/faletopdown.webp");
+    const seaTexture = useTexture("textures/contact/faletopdown.webp");
     // Load Molo Texture
-    const moloTexture = useTexture("/textures/contact/molo.webp");
+    const moloTexture = useTexture("textures/contact/molo.webp");
     // Load Latarnia Texture
-    const latarniaTexture = useTexture("/textures/contact/latarnia.webp");
+    const latarniaTexture = useTexture("textures/contact/latarnia.webp");
     // Load Statek Texture
-    const statekTexture = useTexture("/textures/contact/statek.webp");
+    const statekTexture = useTexture("textures/contact/statek.webp");
 
 
     // Configure texture repeating (1:1 scale)
@@ -328,7 +328,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             {!isWarmup && (
                 <PositionalAudio
                     ref={audioRef}
-                    url="/sounds/szummorza.mp3"
+                    url="sounds/szummorza.mp3"
                     distanceModel="exponential"
                     refDistance={AUDIO_SETTINGS.distance}
                     rolloffFactor={AUDIO_SETTINGS.rolloff}
@@ -366,42 +366,34 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
             {/* 🛢️ SOCIAL BARRELS (Floating in water) */}
             {/* LINKEDIN */}
-            <SocialBarrel
-                position={isMobile ? [-1.2, 0.5, -10] : [-3, 0.5, -10]}
-                rotation={[0, 0.2, 0]}
-                texturePath="/textures/contact/beczka.webp"
-                label="LINKEDIN"
-                onClick={() => window.open(CONTACT_INFO.linkedin, '_blank')}
-                paintOnBeforeCompile={onBeforeCompile}
-                paintUniforms={uniformsData}
-            />
+            {CONTACT_INFO.linkedin && (
+                <SocialBarrel
+                    position={isMobile ? [-1.2, 0.5, -10] : [-3, 0.5, -10]}
+                    rotation={[0, 0.2, 0]}
+                    texturePath="textures/contact/beczka.webp"
+                    label="LINKEDIN"
+                    onClick={() => window.open(CONTACT_INFO.linkedin, '_blank', 'noopener')}
+                    paintOnBeforeCompile={onBeforeCompile}
+                    paintUniforms={uniformsData}
+                />
+            )}
             {/* GITHUB */}
             <SocialBarrel
                 position={isMobile ? [-1.5, -0.3, -7] : [-5, -0.3, -8]}
                 rotation={[0, 0.3, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="GITHUB"
-                onClick={() => window.open(CONTACT_INFO.github, '_blank')}
+                onClick={() => window.open(CONTACT_INFO.github, '_blank', 'noopener')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
-            {/* SRM UNIVERSITY */}
-            <SocialBarrel
-                position={isMobile ? [1.2, 0.5, -10] : [3, 0.5, -10]}
-                rotation={[0, -0.2, 0]}
-                texturePath="/textures/contact/beczka.webp"
-                label="SRM CSE"
-                onClick={() => window.open('https://www.srmist.edu.in', '_blank')}
-                paintOnBeforeCompile={onBeforeCompile}
-                paintUniforms={uniformsData}
-            />
-            {/* PORTFOLIO / PROJECTS */}
+            {/* PROJECTS */}
             <SocialBarrel
                 position={isMobile ? [1.5, -0.3, -7] : [5, -0.3, -8]}
                 rotation={[0, -0.3, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="PROJECTS"
-                onClick={() => window.open(CONTACT_INFO.github, '_blank')}
+                onClick={() => window.open(`${CONTACT_INFO.github}?tab=repositories`, '_blank', 'noopener')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -409,7 +401,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             <SocialBarrel
                 position={isMobile ? [0, -0.7, -6] : [0, -0.7, -7]}
                 rotation={[0, 0, 0]}
-                texturePath="/textures/contact/beczka.webp"
+                texturePath="textures/contact/beczka.webp"
                 label="MESSAGE"
                 onClick={handleMailSelect}
                 paintOnBeforeCompile={onBeforeCompile}

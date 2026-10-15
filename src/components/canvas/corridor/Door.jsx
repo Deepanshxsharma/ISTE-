@@ -32,12 +32,12 @@ const Door = ({
 }) => {
     // Preload textures
     // Texture Loader Hook MUST be called indiscriminately to keep React Hooks consistent
-    const textureMap = useTexture(`/textures/corridor/doors/drzwi${type}.webp`);
+    const textureMap = useTexture(`textures/corridor/doors/drzwi${type}.webp`);
     const isTouch = isTouchDevice();
     const dummyTex = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-    const paintedColorMap = useTexture(isTouch ? dummyTex : `/textures/corridor/doors/drzwi${type}_painted.webp`);
+    const paintedColorMap = useTexture(isTouch ? dummyTex : `textures/corridor/doors/drzwi${type}_painted.webp`);
     // Frame
-    const frameMap = useTexture(`/textures/corridor/doors/ramkasingledoors.webp`);
+    const frameMap = useTexture(`textures/corridor/doors/ramkasingledoors.webp`);
 
     const doorRef = useRef();
     const frameRef = useRef();
@@ -218,7 +218,7 @@ const Door = ({
             {/* SPATIAL AUDIO NODES (Attached slightly in front of the door) */}
             <PositionalAudio
                 ref={hoverAudioRef}
-                url="/sounds/uchyleniedrzwi.mp3"
+                url="sounds/uchyleniedrzwi.mp3"
                 distanceModel="exponential"
                 rolloffFactor={ENTRANCE_DOOR_AUDIO_SETTINGS.rolloff}
                 refDistance={ENTRANCE_DOOR_AUDIO_SETTINGS.distance}
@@ -226,7 +226,7 @@ const Door = ({
             />
             <PositionalAudio
                 ref={openAudioRef}
-                url="/sounds/otwarciedrzwi.mp3"
+                url="sounds/otwarciedrzwi.mp3"
                 distanceModel="exponential"
                 rolloffFactor={ENTRANCE_DOOR_AUDIO_SETTINGS.rolloff}
                 refDistance={ENTRANCE_DOOR_AUDIO_SETTINGS.distance}

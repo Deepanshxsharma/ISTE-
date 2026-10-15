@@ -13,14 +13,7 @@ import NavigationUI from './components/ui/NavigationUI';
 import GlobalOverlay from './components/ui/GlobalOverlay';
 import ScreenReaderOverlay from './components/ui/ScreenReaderOverlay';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
-import posthog from 'posthog-js';
 import { loadSanityData } from './hooks/useSanityData';
-
-// Initialize PostHog
-posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
-  api_host: import.meta.env.VITE_POSTHOG_HOST,
-  person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-});
 
 // Lazy load the heavy 3D experience
 const Experience = lazy(() => import('./components/canvas/Experience'));
@@ -97,7 +90,7 @@ const GlobalAudioEnabler = () => {
 // Scene background using corridor wall texture (static, no animation)
 const PaperSceneBackground = () => {
   const { scene } = useThree();
-  const texture = useTexture('/textures/paper-texture.webp');
+  const texture = useTexture('textures/paper-texture.webp');
 
   useEffect(() => {
     texture.colorSpace = THREE.SRGBColorSpace;

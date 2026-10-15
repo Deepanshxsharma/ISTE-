@@ -1,12 +1,12 @@
 /**
- * SEO & LLMs Generator Plugin for Deepansh Sharma's 3D Portfolio
- * Generates JSON-LD Knowledge Graph and llms.txt for AI crawlers
+ * Adds JSON-LD structured data to index.html and emits llms.txt for AI crawlers.
+ * Keep it in line with src/config/portfolioData.js — facts only.
  */
 
 export function generateSeoHtml() {
     return {
         name: 'vite-seo-deepansh',
-        
+
         transformIndexHtml(html) {
             const jsonLd = {
                 '@context': 'https://schema.org',
@@ -15,24 +15,16 @@ export function generateSeoHtml() {
                         '@type': 'Person',
                         '@id': '#person',
                         name: 'Deepansh Sharma',
-                        alternateName: ['Deepansh', 'Deepansh SRM'],
-                        jobTitle: 'Full-Stack Developer & Computer Vision Researcher',
-                        alumniOf: {
-                            '@type': 'EducationalOrganization',
-                            name: 'SRM University'
-                        },
-                        description: 'B.Tech student in Computer Science and Engineering at SRM University, specializing in full-stack applications, computer vision ANPR pipelines, AI assistants, and IoT integrations.',
-                        knowsAbout: ['React', 'React Three Fiber', 'Three.js', 'Python', 'OpenCV', 'YOLO', 'FastAPI', 'Node.js', 'IoT', 'ESP32'],
-                        sameAs: [
-                            'https://github.com/deepanshsharma',
-                            'https://www.linkedin.com/in/deepansh-sharma/'
-                        ]
+                        description: 'B.Tech Computer Science and Engineering student at SRM University and aspiring full-stack app developer.',
+                        affiliation: { '@type': 'EducationalOrganization', name: 'SRM University' },
+                        knowsAbout: ['Flutter', 'Node.js', 'TypeScript', 'Python', 'OpenCV', 'YOLOv8', 'PaddleOCR', 'Gemini API', 'React', 'Three.js'],
+                        sameAs: ['https://github.com/Deepanshxsharma']
                     },
                     {
                         '@type': 'WebSite',
                         '@id': '#website',
-                        name: 'Deepansh Sharma | Beyond The Screen',
-                        description: 'Interactive 3D developer portfolio by Deepansh Sharma',
+                        name: 'Deepansh Sharma — Beyond the Screen',
+                        description: 'Interactive 3D portfolio of Deepansh Sharma',
                         publisher: { '@id': '#person' }
                     }
                 ]
@@ -44,24 +36,19 @@ export function generateSeoHtml() {
 
         async generateBundle() {
             const llmsContent = `# Deepansh Sharma
-> Aspiring Full-Stack Application Developer & CSE Student at SRM University
+> B.Tech Computer Science and Engineering student at SRM University · aspiring full-stack app developer
 > "I build things that connect code to the real world."
 
-## Background
-- Education: B.Tech in Computer Science and Engineering at SRM University.
-- Domains: Interactive UI & 3D WebGL, Computer Vision (ANPR), Multimodal AI Assistants, Hardware & IoT Telemetry.
+## Projects
+1. TechXpert My Parking: parking module of the TechXpert Flutter app — lot search, slot and time selection, payment selection, QR ticket and an extendable live timer. Node.js + Express + TypeScript API. In development.
+2. TechXPark ANPR: number-plate recognition prototype — OpenCV capture, YOLOv8 detection, PaddleOCR reading, result sent to the parking API.
+3. Hi TechXPert: AI assistant prototype for employee-facing workflows on the Gemini API.
+4. Jarvis: fork of isair/jarvis (local-first voice assistant) tuned for an M4 MacBook Air — https://github.com/Deepanshxsharma/jarvis
+5. Attendance Calculator: Tesseract.js OCR web app — https://deepanshxsharma.github.io/attendance-calculator/
 
-## Featured Engineering Projects
-1. TechXpert My Parking: Real-time smart parking allocation system with bay reservations and payment processing.
-2. TechXPark ANPR Pipeline: Computer vision vehicle license plate recognition pipeline with edge preprocessing and sub-100ms inference.
-3. Hi TechXPert: Multimodal Gemini assistant for interactive diagnostic troubleshooting and visual reasoning.
-4. Jarvis Personal AI Assistant: Local tool execution, speech synthesis, and contextual voice-guided workflow automation.
-5. IoT Edge Node & Telemetry Hub: ESP32 microcontrollers streaming live telemetry over MQTT to a centralized analytics dashboard.
-
-## Links & Contact
-- Email: deepansh.sharma.dev@gmail.com
-- GitHub: https://github.com/deepanshsharma
-- LinkedIn: https://www.linkedin.com/in/deepansh-sharma/
+## Contact
+- Email: deepanshsharma622@gmail.com
+- GitHub: https://github.com/Deepanshxsharma
 `;
 
             this.emitFile({

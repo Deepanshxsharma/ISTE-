@@ -438,7 +438,10 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
                                     }}
                                         onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
                                         onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                                        onClick={() => window.open(item.url || content.url || '#', '_blank')}
+                                        onClick={() => {
+                                            const href = item.url || content.url;
+                                            if (href) window.open(href, '_blank', 'noopener');
+                                        }}
                                     >
                                         <div style={{
                                             position: 'relative',
@@ -527,20 +530,22 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
                             </p>
 
                             {/* Action Button */}
-                            <div style={{
-                                marginTop: 'auto',
-                                paddingTop: '1rem',
-                                ...getStaggerStyle(400)
-                            }}>
-                                <a
-                                    href={content.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="studio-action-button"
-                                >
-                                    Open Link ↗
-                                </a>
-                            </div>
+                            {content.url && (
+                                <div style={{
+                                    marginTop: 'auto',
+                                    paddingTop: '1rem',
+                                    ...getStaggerStyle(400)
+                                }}>
+                                    <a
+                                        href={content.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="studio-action-button"
+                                    >
+                                        Open Link ↗
+                                    </a>
+                                </div>
+                            )}
                         </>
                     )}
                 </div>

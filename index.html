@@ -3,34 +3,33 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="preload" as="image" href="/textures/paper-texture.webp" type="image/webp" fetchpriority="high" crossorigin="anonymous">
-  <link rel="icon" type="image/png" href="/favico.png" />
-  <link rel="apple-touch-icon" href="/favico.png" />
+  <base href="%BASE_URL%" />
+  <link rel="preload" as="image" href="textures/paper-texture.webp" type="image/webp" fetchpriority="high" crossorigin="anonymous">
+  <link rel="icon" type="image/png" href="favico.png" />
+  <link rel="apple-touch-icon" href="favico.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#fafafa" />
 
   <!-- SEO Meta Tags -->
-  <title>Deepansh Sharma | Beyond The Screen — Creative 3D Portfolio</title>
+  <title>Deepansh Sharma — Beyond the Screen</title>
   <meta name="description"
-    content="Interactive 3D developer portfolio of Deepansh Sharma, CSE student at SRM University. Exploring full-stack engineering, Computer Vision ANPR pipelines, AI assistants, and IoT integrations." />
+    content="Interactive 3D portfolio of Deepansh Sharma, B.Tech CSE student at SRM University: app development, computer vision for parking, and AI assistant experiments." />
   <meta name="author" content="Deepansh Sharma" />
-  <meta name="keywords"
-    content="Deepansh Sharma, Deepansh, SRM University, Full Stack Developer, Computer Vision, ANPR, React Three Fiber, Three.js, AI Assistant, IoT Edge, Portfolio" />
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph (Facebook, LinkedIn, Discord) -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Deepansh Sharma | Beyond The Screen — Creative 3D Portfolio" />
+  <meta property="og:title" content="Deepansh Sharma — Beyond the Screen" />
   <meta property="og:description"
-    content="Interactive 3D developer portfolio of Deepansh Sharma, CSE student at SRM University. Exploring full-stack engineering, Computer Vision ANPR pipelines, AI assistants, and IoT integrations." />
-  <meta property="og:site_name" content="Deepansh Sharma Portfolio" />
+    content="Building applications, intelligent systems, and interactive experiences." />
+  <meta property="og:site_name" content="Deepansh Sharma" />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Deepansh Sharma | Beyond The Screen — Creative 3D Portfolio" />
+  <meta name="twitter:title" content="Deepansh Sharma — Beyond the Screen" />
   <meta name="twitter:description"
-    content="Interactive 3D developer portfolio of Deepansh Sharma, CSE student at SRM University. Exploring full-stack engineering, Computer Vision ANPR pipelines, AI assistants, and IoT integrations." />
+    content="Building applications, intelligent systems, and interactive experiences." />
 
   <!-- Google Fonts: Hand-drawn + Primary -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +39,7 @@
     rel="stylesheet">
 
   <style>
-    /* Absolute SEO text hiding - completely accessible to Googlebot, invisible to users */
+    /* Text for search engines and screen readers, visually hidden */
     .sr-only-seo {
       position: absolute !important;
       width: 1px !important;
@@ -59,116 +58,44 @@
   <!-- SEO Fallback for WebGL SPAs -->
   <div id="seo-content" class="sr-only-seo">
     <header>
-      <h1>Deepansh Sharma | Aspiring Full-Stack Application Developer & CSE Student at SRM University</h1>
-      <p>Interactive 3D universe showcasing projects in Computer Vision ANPR, Full-Stack Applications, AI Assistants, and IoT Hardware.</p>
+      <h1>Deepansh Sharma — Beyond the Screen</h1>
+      <p>B.Tech Computer Science and Engineering student at SRM University and aspiring full-stack app developer. I build things that connect code to the real world.</p>
     </header>
-    
-    <nav aria-label="Main Navigation">
-      <ul>
-        <li><a href="/">Entrance (Corridor)</a></li>
-        <li><a href="/gallery">Gallery (Real-World Projects)</a></li>
-        <li><a href="/about">About (Journey & SRM CSE)</a></li>
-        <li><a href="/contact">Contact (Get In Touch)</a></li>
-      </ul>
-    </nav>
-    
+
     <main>
-      <article id="home-corridor">
-        <header>
-          <h2>Experience the 3D Corridor: Beyond the Screen</h2>
-        </header>
-        <section>
-          <h3>Welcome to Deepansh Sharma's Digital Universe</h3>
-          <p>
-            Welcome to the interactive 3D universe of <strong>Deepansh Sharma</strong>. I am a B.Tech Computer Science and Engineering student at SRM University passionate about engineering practical systems that bridge software logic with hardware reality.
-          </p>
-          <p>
-            This experience showcases my work across full-stack applications, computer vision optical character recognition, voice & multimodal AI agents, and microcontrollers.
-          </p>
-        </section>
-      </article>
-
-      <article id="about-me">
-        <header>
-          <h2>About Deepansh Sharma: The Developer Behind the Screen</h2>
-        </header>
-        <section>
-          <h3>Academic & Technical Foundations</h3>
-          <p>
-            Currently pursuing B.Tech in Computer Science and Engineering at SRM University. My development ethos centers on tangible engineering: from building responsive, interactive user experiences in React and mobile frameworks, to processing live camera streams with OpenCV and YOLO, orchestrating Gemini multimodal agents, and reading telemetry from ESP32 microcontrollers.
-          </p>
-        </section>
-        <section>
-          <h3>Core Technical Domains</h3>
-          <ul>
-            <li><strong>Frontend & Mobile:</strong> React, React Three Fiber, Next.js, Flutter / React Native, Tailwind CSS, GSAP.</li>
-            <li><strong>Backend & Systems:</strong> Node.js, Express, Python FastAPI, PostgreSQL, MongoDB, Redis, REST & WebSockets.</li>
-            <li><strong>Computer Vision & AI:</strong> OpenCV, YOLO object detection, EasyOCR/Tesseract, Gemini Pro Multimodal API, LangChain.</li>
-            <li><strong>Hardware & IoT:</strong> ESP32, Arduino, MQTT, Sensor Telemetry, Serial Interfacing.</li>
-          </ul>
-        </section>
-      </article>
-
-      <article id="gallery-projects">
-        <header>
-          <h2>The Gallery: Real-World Systems & Engineering Projects</h2>
-        </header>
-        
+      <article id="projects">
+        <h2>Projects</h2>
         <section>
           <h3>TechXpert My Parking</h3>
-          <p>
-            Real-time smart parking allocation system featuring dynamic bay reservation, automated availability maps, and payment gateway integration.
-          </p>
+          <p>The TechXPark parking module of the TechXpert Flutter app: find a lot, pick a slot and a time, choose how to pay, and get a QR ticket with a live timer you can extend. Backed by a Node.js + Express + TypeScript API.</p>
         </section>
-
         <section>
-          <h3>TechXPark ANPR Pipeline</h3>
-          <p>
-            Computer vision automated number plate recognition pipeline with edge preprocessing, contour localization, character segmentation, and sub-100ms inference.
-          </p>
+          <h3>TechXPark ANPR</h3>
+          <p>Number-plate recognition prototype for parking gates: OpenCV camera capture, YOLOv8 plate detection, PaddleOCR reading, result sent to the parking API.</p>
         </section>
-
         <section>
           <h3>Hi TechXPert</h3>
-          <p>
-            Multimodal intelligent assistant leveraging Google Gemini for visual troubleshooting, schematic interpretation, and contextual voice-guided debugging.
-          </p>
+          <p>An AI assistant prototype for employee-facing workflows, built on the Gemini API.</p>
         </section>
-
         <section>
-          <h3>Jarvis Personal AI Assistant</h3>
-          <p>
-            Context-aware voice automation assistant with real-time speech recognition, local tool execution, persistent conversational memory, and home automation integration.
-          </p>
+          <h3>Jarvis</h3>
+          <p>A fork of isair/jarvis, a local-first voice assistant, tuned for an M4 MacBook Air with MLX Whisper, Ollama and Piper. <a href="https://github.com/Deepanshxsharma/jarvis">Source</a></p>
         </section>
-
         <section>
-          <h3>IoT Edge Node & Telemetry Hub</h3>
-          <p>
-            Hardware-software bridge using ESP32 microcontrollers streaming real-time sensor metrics over MQTT with threshold alerting and cloud analytics.
-          </p>
+          <h3>Attendance Calculator</h3>
+          <p>Reads an attendance-portal screenshot with Tesseract.js and works out the percentage against the 75% target. <a href="https://deepanshxsharma.github.io/attendance-calculator/">Live app</a></p>
         </section>
       </article>
 
-      <article id="contact-room">
-        <header>
-          <h2>Get in Touch with Deepansh Sharma</h2>
-        </header>
-        <section>
-          <p>
-            Always excited to discuss full-stack engineering, computer vision pipelines, IoT systems, or innovative collaborations.
-          </p>
-          <p>
-            Email: <a href="mailto:deepansh.sharma.dev@gmail.com">deepansh.sharma.dev@gmail.com</a>
-          </p>
-        </section>
+      <article id="contact">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:deepanshsharma622@gmail.com">deepanshsharma622@gmail.com</a> · GitHub: <a href="https://github.com/Deepanshxsharma">Deepanshxsharma</a></p>
       </article>
     </main>
   </div>
 
-  <!-- Noscript strict fallback -->
   <noscript>
-    Please enable JavaScript to experience the interactive 3D portfolio of Deepansh Sharma.
+    Please enable JavaScript to see the interactive 3D portfolio of Deepansh Sharma. Email: deepanshsharma622@gmail.com
   </noscript>
 
   <div id="root"></div>

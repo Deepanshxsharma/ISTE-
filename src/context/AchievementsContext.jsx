@@ -123,15 +123,6 @@ export const AchievementsProvider = ({ children }) => {
                 return updated;
             });
 
-            // Send event to PostHog
-            const achievementData = ACHIEVEMENTS[id];
-            if (achievementData) {
-                posthog.capture('achievement_unlocked', {
-                    achievement_id: id,
-                    achievement_title: achievementData.title,
-                });
-            }
-
             // Trigger sound effect
             playUnlockChime();
 
