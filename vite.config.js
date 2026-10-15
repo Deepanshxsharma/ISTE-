@@ -28,7 +28,7 @@ function serveStaticStartPage() {
 }
 
 export default defineConfig({
-  base: './',
+  base: '/ISTE-/',
   plugins: [serveStaticStartPage(), react(), viteCompression(), generateSeoHtml()],
   server: {
     proxy: {
