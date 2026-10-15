@@ -54,20 +54,25 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
     // Pre-allocate Vector3 to avoid per-frame garbage collection
     const worldPosVec = useRef(new THREE.Vector3());
 
-    // Letter positions for ITOM split effect
+    // Letter positions for DEEPANSH split effect
     const letters = useMemo(() => [
-        { char: 'I', baseX: -0.95, splitDir: -1.6, delay: 0 },
-        { char: 'T', baseX: -0.43, splitDir: -0.6, delay: 0 },
-        { char: 'O', baseX: 0.23, splitDir: 0.6, delay: 0 },
-        { char: 'M', baseX: 0.95, splitDir: 1.8, delay: 0 },
+        { char: 'D', baseX: -1.4, splitDir: -2.2, delay: 0 },
+        { char: 'E', baseX: -1.0, splitDir: -1.6, delay: 0 },
+        { char: 'E', baseX: -0.6, splitDir: -1.0, delay: 0 },
+        { char: 'P', baseX: -0.2, splitDir: -0.4, delay: 0 },
+        { char: 'A', baseX: 0.2, splitDir: 0.4, delay: 0 },
+        { char: 'N', baseX: 0.6, splitDir: 1.0, delay: 0 },
+        { char: 'S', baseX: 1.0, splitDir: 1.6, delay: 0 },
+        { char: 'H', baseX: 1.4, splitDir: 2.2, delay: 0 },
     ], []);
 
     // Tagline words for split effect
     const taglineWords = useMemo(() => [
-        { text: '<', baseX: -0.85, splitDir: -1.5, delay: 0 },
-        { text: 'creative', baseX: -0.4, splitDir: -0.8, delay: 0 },
-        { text: 'developer', baseX: 0.4, splitDir: 0.8, delay: 0 },
-        { text: '/>', baseX: 0.85, splitDir: 1.5, delay: 0 },
+        { text: '<', baseX: -1.2, splitDir: -1.8, delay: 0 },
+        { text: 'beyond', baseX: -0.65, splitDir: -1.0, delay: 0 },
+        { text: 'the', baseX: -0.1, splitDir: -0.2, delay: 0 },
+        { text: 'screen', baseX: 0.45, splitDir: 0.8, delay: 0 },
+        { text: '/>', baseX: 1.15, splitDir: 1.8, delay: 0 },
     ], []);
 
     // Animation loop
@@ -97,7 +102,7 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
 
         splitAmount.current = THREE.MathUtils.lerp(splitAmount.current, targetSplit.current, 0.08);
 
-        // Apply split to each letter of ITOM
+        // Apply split to each letter of DEEPANSH
         letterRefs.current.forEach((ref, i) => {
             if (ref) {
                 // Ensure opacity is 1
@@ -105,9 +110,11 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
                 ref.scale.setScalar(1); // Ensure scale is 1, no lingering pop effect
 
                 const letter = letters[i];
-                ref.position.x = letter.baseX + letter.splitDir * splitAmount.current;
-                ref.position.y = 0.2 + Math.sin(time * 0.7 + i * 0.5) * 0.015;
-                ref.rotation.z = Math.sin(time * 0.5 + i) * 0.02 * (1 + splitAmount.current);
+                if (letter) {
+                    ref.position.x = letter.baseX + letter.splitDir * splitAmount.current;
+                    ref.position.y = 0.2 + Math.sin(time * 0.7 + i * 0.5) * 0.015;
+                    ref.rotation.z = Math.sin(time * 0.5 + i) * 0.02 * (1 + splitAmount.current);
+                }
             }
         });
 
@@ -118,8 +125,10 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
                 if (ref.material) ref.material.opacity = 1;
 
                 const word = taglineWords[i];
-                ref.position.x = word.baseX + word.splitDir * splitAmount.current * 0.6;
-                ref.position.y = -0.45 + Math.sin(time * 0.6 + i * 0.3) * 0.008;
+                if (word) {
+                    ref.position.x = word.baseX + word.splitDir * splitAmount.current * 0.6;
+                    ref.position.y = -0.45 + Math.sin(time * 0.6 + i * 0.3) * 0.008;
+                }
             }
         });
 
@@ -131,13 +140,13 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
 
     return (
         <group ref={groupRef} position={position} scale={[scale, scale, 1]}>
-            {/* ITOM Letters - Rubik Scribble font with fade-in animation */}
+            {/* DEEPANSH Letters - Rubik Scribble font with fade-in animation */}
             {letters.map((letter, i) => (
                 <Text
-                    key={letter.char}
+                    key={`${letter.char}-${i}`}
                     ref={(el) => (letterRefs.current[i] = el)}
                     position={[letter.baseX, 0.2, 0]}
-                    fontSize={0.9}
+                    fontSize={0.65}
                     font={RUBIK_SCRIBBLE_URL}
                     color="#ffffff"
                     outlineWidth={0.012}

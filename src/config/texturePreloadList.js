@@ -20,11 +20,11 @@ export const ENTRANCE_TEXTURES = [
     '/textures/entrance/stone-path.webp',
     '/textures/entrance/floor_paper.webp',
     '/textures/entrance/belka.webp',
-    '/textures/entrance/sign.webp',
+    '/textures/entrance/sign_deepansh.webp',
     // Characters/Objects
     '/textures/entrance/cat_front_body.webp',
     '/textures/entrance/window_sketch.webp',
-    '/textures/entrance/avatar_window.webp',
+    '/textures/entrance/window_avatar_deepansh.webp',
     '/textures/entrance/tree_sketch.webp',
     '/textures/entrance/mouse_hanging.webp',
     '/textures/entrance/pot_with_duck.webp',

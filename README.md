@@ -1,4 +1,4 @@
-# 🎨 ITom Dev | Interactive 3D WebGL Portfolio
+# 🌌 Deepansh Sharma | Beyond The Screen — 3D Portfolio Universe
 
 <div align="center">
   <img src="https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react" alt="React" />
@@ -10,86 +10,60 @@
 
 <br/>
 
-Welcome to the open-source repository of **Tomasz "ITom" Szmajda's** interactive 3D Web Developer portfolio. This project pushes the limits of modern web technologies by blending spatial WebGL computing, complex React ecosystems, and highly optimized frontend engineering.
+Welcome to **Deepansh Sharma's** immersive 3D personal universe and developer portfolio: **"Beyond The Screen"**.
 
-> [!NOTE]
-> Ensure hardware acceleration is enabled in your browser settings to experience the smooth 60 FPS high-tier rendering of this application.
+I am a B.Tech Computer Science and Engineering student at **SRM University**, building practical applications, computer vision pipelines, multimodal AI assistants, and IoT hardware integrations.
 
-## 🚀 Key Performance Architectures (2026 Standards)
-
-This application is strictly optimized for cross-device operability, achieving zero lag spikes even on mobile processors through several bespoke architectural implementations:
-
-1. **Invisible Semantic SEO Fallback:** Bypasses WebGL canvas SEO limitations via strategic `sr-only-seo` indexing DOM injections, rendering fully visible semantic trees to native search-engine crawlers without mounting heavy bundles.
-2. **Asynchronous Shader Compilation:** Enforces `gl.compileAsync` during the Preloading phase inside a hidden `RoomWarmup` Suspense boundary. This allows Three.js to pre-compile complex materials asynchronously without blocking the main React update thread.
-3. **Baked Global Tinting & Lighing Extraction:** Replaced real-time WebGL shadow maps and infinite light rays with baked-in global textures (`apply_global_tint.js`), dropping the GPU compute overhead entirely while maintaining visual depth.
-4. **DOM Mutation Bypassing:** Critical animation properties (like SVG preloader states tracking 130+ concurrent HTTP texture requests) write directly to the `ref.current.style`, intentionally bypassing React’s `setState` render cycles to conserve CPU.
-5. **Adaptive Device Tiering:** Auto-detects `navigator.deviceMemory`, hardware concurrency, and viewport sizes to scale WebGL resolutions (`dpr`), antialiasing algorithms, and texture loading strictness on the fly.
+> *"I build things that connect code to the real world."*
 
 ---
 
-## 🏗️ 3D Scene Architecture
+## 🏛️ Spatial Architecture & Explorable Rooms
 
-```mermaid
-graph TD;
-    A[App.jsx] --> B[SceneProvider Context];
-    A --> C[canvas];
-    A --> D[2D DOM / SEO / HUD];
-    
-    C --> E[Experience.jsx];
-    E --> F[RoomWarmup Pre-compiler];
-    E --> G[Infinite Corridor Manager];
-    
-    G --> H[Gallery Room];
-    G --> I[Studio Room];
-    G --> J[Contact Room];
-    G --> K[About Room];
-    
-    H -.-> L{useTexture & useGLTF};
-    L -.-> M(GPU Memory);
+The portfolio is structured as an explorable 3D universe with hand-drawn, sketch-inspired aesthetics:
+
+- **The Grand Entrance & Corridor:** A hand-drawn corridor with physical wooden doors leading to different sectors.
+- **The Gallery Room:** Interactive 3D project cards displaying Deepansh's core systems:
+  - **TechXpert My Parking:** Real-time smart parking allocation and dynamic bay booking system.
+  - **TechXPark ANPR Pipeline:** Sub-100ms OpenCV and YOLO license plate recognition pipeline.
+  - **Hi TechXPert:** Multimodal Google Gemini diagnostic assistant with visual reasoning.
+  - **Jarvis Personal AI:** Speech-driven automation agent with local tool calling and memory.
+  - **IoT Edge Node & Telemetry Hub:** ESP32 microcontroller sensor telemetry streamed over MQTT.
+- **The Studio / Project Labs:** A floating holographic grid of interactive CRT monitors detailing engineering pipelines, architecture blueprints, and microcontrollers.
+- **The About Room:** Floating islands representing academic milestones at SRM University, computer vision research, full-stack systems engineering, and hardware prototyping.
+- **The Contact Room:** Interactive 3D paper desk with direct communication channels, GitHub, LinkedIn, and SRM CSE portals.
+
+---
+
+## ⚙️ Key Technical Implementations
+
+1. **Procedurally Generated & Original Textures:** 30 high-resolution original WebP textures created for gallery cards, monitors, milestones, and signage.
+2. **Disconnected External Dependencies:** Decoupled from third-party remote CMS databases; 100% self-contained data flow via `src/config/portfolioData.js`.
+3. **Dynamic 3D Geometry:** Custom split-text corridor hero typography (`DEEPANSH`), interactive flip cards, and floating monitors.
+4. **Asynchronous Preloading & Shader Warmup:** Asynchronous shader compilation prevents frame drops during room transitions.
+5. **Adaptive Performance:** Responsive canvas scaling with device pixel ratio clamp and hardware concurrency throttling.
+
+---
+
+## 🛠️ Local Development
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start local development server
+npm run dev
+
+# 3. Build for production
+npm run build
+
+# 4. Preview production bundle
+npm run preview
 ```
 
 ---
 
-## 🛠️ Local Development Setup
+## 📜 Attribution & License
 
-To run this application natively on your local machine:
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/ITomPoland/portfolio-itom.git
-   cd portfolio-itom
-   ```
-
-2. **Install dependencies:**
-   Make sure you are on Node.js v20+.
-   ```bash
-   npm install
-   ```
-
-3. **Start the local Dev Server:**
-   ```bash
-   npm run dev
-   ```
-
-> [!IMPORTANT]
-> Since this project heavily utilizes `vite-plugin-compression` and hundreds of high-res textures, your initial local load might take a few seconds as the dev-server buffers asset delivery. For performance testing, always run `npm run build && npm run preview`.
-
-## 🤝 Contributing & Feedback
-
-All PRs improving the shader physics, 3D math logic, or component memoization runtimes are welcome. Please refer to our new `.github` Issue and Pull Request templates when submitting!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingRoom`)
-
-
-## License
-
-The code in this repository is licensed under the [MIT License](LICENSE). 
-**Note:** All personal assets, 3D textures, images, and copywriting are copyright of Tomasz Szmajda and may not be reused or reproduced without explicit permission.
-3. Commit your Changes (`git commit -m 'feat: Added realistic liquid simulation to Contact Room'`)
-4. Push to the Branch (`git push origin feature/AmazingRoom`)
-5. Open a Pull Request
-
----
-
-*Designed and Developed by [Tomasz Szmajda (ITom Dev)](https://itomdev.com).*
+- **Code Architecture:** Adapted from [portfolio-itom](https://github.com/ITomPoland/portfolio-itom) under the [MIT License](LICENSE), with core rendering, navigation, and shader architectures preserved and customized.
+- **Personal Assets & Copywriting:** All personal textures, project cards, copywriting, identity, and branding are the original work of **Deepansh Sharma** (B.Tech CSE, SRM University).

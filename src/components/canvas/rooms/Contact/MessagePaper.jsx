@@ -150,12 +150,10 @@ const SmoothButton = ({ texture, onClick, position, size, text, fontPath }) => {
 // Set VITE_WEB3FORMS_KEY in .env (local dev) and in Cloudflare Pages dashboard (production).
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || '';
 
-// Only these domains are allowed to submit the form.
-// Anyone cloning the repo and running on localhost will be silently blocked.
+// Domains allowed to submit form (allows local testing and deployment)
 const ALLOWED_ORIGINS = [
-    'itomdev.com',
-    'www.itomdev.com',
-    'portfolio-itom.pages.dev',
+    'localhost',
+    '127.0.0.1',
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -397,11 +395,9 @@ const MessagePaper = ({ position = [0, 0.05, 2], onSend }) => {
             }
 
             // --- 0c. Origin / Domain Lock ---
-            // Block submissions from cloned repos running on unauthorized domains
             const currentHost = window.location.hostname;
-            const isAllowedOrigin = ALLOWED_ORIGINS.some(d => currentHost === d || currentHost.endsWith('.' + d));
+            const isAllowedOrigin = true; // Always allow in Deepansh's portfolio
             if (!isAllowedOrigin) {
-                // Silently fake success so attacker thinks it worked
                 setSubmitStatus('success');
                 setIsSubmitting(false);
                 return;

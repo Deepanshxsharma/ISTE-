@@ -13,6 +13,7 @@ import GalleryClouds from './GalleryClouds';
 import { useAudio } from '../../../../context/AudioManager';
 import { usePaintMaterial } from './usePaintMaterial';
 import { useGalleryProjects } from '../../../../hooks/useSanityData';
+import { PROJECTS_DATA } from '../../../../config/portfolioData';
 
 // Reusable Vector3 to avoid allocations in useFrame
 const _tempScale = new THREE.Vector3();
@@ -34,44 +35,7 @@ export const GALLERY_INTERACTION_AUDIO_SETTINGS = {
 };
 
 // Define the unique projects and their textures
-const FALLBACK_PROJECTS = [
-    {
-        id: 'monetune',
-        title: 'MONETUNE',
-        front: '/textures/gallery/monetuneprzod.webp',
-        painted: '/textures/gallery/monetuneprzod_painted.webp',
-        url: 'https://monetune.pl',
-        description: 'MoneTune is a step-by-step blueprint that teaches beginners how to generate passive income using AI-created music. Without any musical skills, you will learn how to easily produce professional tracks, publish them on platforms like Spotify, and monetize your digital assets.',
-        techStack: ['/textures/gallery/wordpresslogo.webp', '/textures/gallery/elementorlogo.webp', '/textures/gallery/phplogo.webp', '/textures/gallery/csslogo.webp']
-    },
-    {
-        id: 'timber',
-        title: 'TIMBERKITTY',
-        front: '/textures/gallery/timberkittyprzod.webp',
-        painted: '/textures/gallery/timberkittyprzod_painted.webp',
-        url: 'https://timberkitty.netlify.app',
-        description: 'TimberKitty is an addictive, free-to-play browser arcade game built in pure JavaScript. Players control a lumberjack cat to chop wood, save birds, complete daily missions, and compete on global leaderboards.',
-        techStack: ['/textures/gallery/jslogo.webp', '/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp', '/textures/gallery/firebaselogo.webp']
-    },
-    {
-        id: 'young',
-        title: 'YOUNG MULTI',
-        front: '/textures/gallery/youngmultiprzod.webp',
-        painted: '/textures/gallery/youngmultiprzod_painted.webp',
-        url: 'https://young-multi-strona.netlify.app',
-        description: 'A sleek, modern concept website dedicated to the Polish rapper and creator Young Multi. It serves as a promotional landing page designed to highlight his personal brand, music, and online presence.',
-        techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/htmllogo.webp', '/textures/gallery/netlifylogo.webp']
-    },
-    {
-        id: 'bio',
-        title: 'BIO',
-        front: '/textures/gallery/bioprzod.webp',
-        painted: '/textures/gallery/bioprzod_painted.webp',
-        url: 'https://tomkingbio.netlify.app',
-        description: 'A fast, modern personal bio page serving as a central hub for my digital footprint. It showcases my latest coding projects, web development services, YouTube videos, and recommended music artists.',
-        techStack: ['/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp', '/textures/gallery/jslogo.webp', '/textures/gallery/netlifylogo.webp']
-    },
-];
+const FALLBACK_PROJECTS = PROJECTS_DATA;
 
 const PROJECT_COUNT = 10; // Keep the count for the infinite scroll feel
 const GAP = 2.5;

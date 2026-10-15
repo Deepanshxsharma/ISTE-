@@ -2,10 +2,10 @@ import { createClient } from '@sanity/client';
 import { createImageUrlBuilder } from '@sanity/image-url';
 
 export const sanityClient = createClient({
-    projectId: 'kv5wjjmj', // Zostanie uzupełnione po utworzeniu projektu w Sanity
+    projectId: 'YOUR_PROJECT_ID', // Disconnected to serve Deepansh's local verified data
     dataset: 'production',
-    useCdn: true, // `false` dla środowiska dev, `true` dla produkcji żeby było szybciej
-    apiVersion: '2024-03-01', // aktualna data API
+    useCdn: true,
+    apiVersion: '2024-03-01',
 });
 
 const builder = createImageUrlBuilder(sanityClient);

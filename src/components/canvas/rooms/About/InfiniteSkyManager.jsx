@@ -8,6 +8,7 @@ import { useScene } from '../../../../context/SceneContext';
 import '../../shaders/RevealBasicMaterial'; // Registers brush-stroke reveal for BasicMaterial
 import { isTouchDevice } from '../../../../utils/deviceDetect';
 import { useAwards } from '../../../../hooks/useSanityData';
+import { ABOUT_OVERLAY_CARDS } from '../../../../config/portfolioData';
 
 // Reusable Vector3 to avoid allocations in event handlers
 const _tempVec3 = new THREE.Vector3();
@@ -258,8 +259,8 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
  * Elements spread apart as they approach camera
  */
 const IntroMilestone = ({ z, scrollProgressRef }) => {
-    // Load avatar texture
-    const avatarTexture = useLoader(THREE.TextureLoader, '/textures/about/awatarnachmurce.webp');
+    // Load avatar texture (original Deepansh silhouette)
+    const avatarTexture = useLoader(THREE.TextureLoader, '/textures/entrance/window_avatar_deepansh.webp');
     const { camera, viewport } = useThree();
     const isTouch = isTouchDevice();
 
@@ -275,9 +276,8 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
     const baseY = 2;
 
     // Calculate aspect ratio
-    // LEGACY FIX: Use original dimensions (2816x1536) to prevent stretching
-    const legacyAspectRatio = 2816 / 1536; 
-    const avatarWidth = 6; // Zwiększony rozmiar awatara na chmurce
+    const legacyAspectRatio = 1.0; 
+    const avatarWidth = 4.5;
     const avatarHeight = avatarWidth / legacyAspectRatio;
 
     // Animation: floating + spread apart when close
@@ -296,30 +296,23 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
         if (!groupRef.current.visible) return;
 
         // FIX: Use consistent distance based on scrollProgress + offset
-        // This ensures animations work IDENTICALLY regardless of chunk/camera position
-        // Base Start Z (-15) + Scroll (0) - Offset (55) = -70 (Matches "Working" Chunk 0 feel)
         const distanceZ = z + scrollProgress - 55;
 
         // Spread effect: starts at z = -25, full spread at z = -5
-        // This makes elements spread BEFORE they reach the camera
-        // === EDYTUJ TUTAJ (INTRO) ===
-        // Zwiększ różnicę między Start a End, żeby animacja była wolniejsza
-        const spreadStart = -70; // Startuje wcześniej
-        const spreadEnd = -50;   // Kończy później
+        const spreadStart = -70;
+        const spreadEnd = -50;
         let spreadFactor = 0;
 
         if (distanceZ > spreadStart && distanceZ < spreadEnd) {
-            // Calculate spread: 0 at spreadStart, 1 at spreadEnd
             spreadFactor = (distanceZ - spreadStart) / (spreadEnd - spreadStart);
             spreadFactor = Math.min(1, Math.max(0, spreadFactor));
-            // Ease out for smoother animation
             spreadFactor = spreadFactor * spreadFactor;
         } else if (distanceZ >= spreadEnd) {
             spreadFactor = 1;
         }
 
-        // Apply spread to elements (move left/right) - MORE AGGRESSIVE
-        const maxSpread = 15; // How far elements spread (increased!)
+        // Apply spread to elements (move left/right)
+        const maxSpread = 15;
 
         if (titleRef.current) {
             titleRef.current.position.x = -spreadFactor * maxSpread * 0.8;
@@ -328,7 +321,6 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
             brandRef.current.position.x = spreadFactor * maxSpread * 0.6;
         }
         if (avatarRef.current) {
-            // Avatar: floating + spread upward
             avatarRef.current.position.y = baseY + Math.sin(time * 0.8) * 0.15 + spreadFactor * 3;
             avatarRef.current.position.x = -spreadFactor * maxSpread * 0.3;
         }
@@ -352,7 +344,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/RubikScribble-Regular.ttf"
             >
-                TOMASZ SZMAJDA
+                DEEPANSH SHARMA
             </Text>
 
             {/* Subtitle - Brand (spreads right) */}
@@ -365,7 +357,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/CabinSketch-Regular.ttf"
             >
-                (ITOM)
+                (DEEPANSH)
             </Text>
 
             {/* Avatar on cloud - floating + spreads up-left */}
@@ -390,7 +382,7 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 font="/fonts/CabinSketch-Regular.ttf"
                 fontStyle="italic"
             >
-                "Crafting digital experiences
+                "I build things that connect code
             </Text>
 
             {/* Motto - Line 2 (spreads left) */}
@@ -404,70 +396,19 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
                 font="/fonts/CabinSketch-Regular.ttf"
                 fontStyle="italic"
             >
-                that push creative boundaries"
+                to the real world."
             </Text>
         </group>
     );
 };
 
 /**
- * MOCK DATA FOR AWARDS
+ * MILESTONE DATA FOR DEEPANSH SHARMA
  */
 const AWARDS_DATA = {
-    featured: {
-        id: 'award-featured',
-        layout: 'certificate_grid',
-        title: 'Featured Projects Collection',
-        items: [
-            { label: 'Featured - Awwwards', date: 'May 2025', image: '/textures/about/FEATURED.webp', url: 'https://awwwards.com' },
-            { label: 'Featured - CSS Design Awards', date: 'June 2025', image: '/textures/about/FEATURED.webp', url: 'https://cssdesignawards.com' },
-            { label: 'Featured - The FWA', date: 'July 2025', image: '/textures/about/FEATURED.webp', url: 'https://thefwa.com' },
-            { label: 'Featured - Behance', date: 'August 2025', image: '/textures/about/FEATURED.webp', url: 'https://behance.net' },
-        ],
-        platformConfig: {
-            label: 'HONOR',
-            color: '#1a1a1a',
-            icon: '⭐'
-        }
-    },
-    sotd: {
-        id: 'award-sotd',
-        layout: 'certificate_grid',
-        title: 'Site of the Day Awards',
-        items: [
-            { label: 'SOTD - GSAP', date: 'February 13, 2026', image: '/textures/about/SOTDAYYOUNGMULTIGSAP.webp', url: 'https://www.linkedin.com/posts/greensock_site-of-the-day-young-multi-this-immersive-activity-7427567524940017664-zU2n?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE3TV6UBqXoaJXUN5-1s3ij6SQJwTRAcbCM' },
-            { label: 'SOTD - CSS Winner', date: 'January 24, 2026', image: '/textures/about/SOTDAYYOUNGMULTICSSWINNER.webp', url: 'https://www.csswinner.com/details/young-multi-official-experience/19045' },
-            { label: 'SOTD - Orpetron', date: 'January 29, 2026', image: '/textures/about/SOTDAYYOUNGMULTIORPETRON.webp', url: 'https://orpetron.com/sites/young-multi/' },
-            { label: 'SOTD - Design Nominess', date: 'February 17, 2026', image: '/textures/about/SOTDAYYOUNGMULTIDESIGNNOMINESS.webp', url: 'https://www.designnominees.com/sites/young-multi' }
-        ],
-        platformConfig: {
-            label: 'AWARD',
-            color: '#1a1a1a',
-            icon: '🏆'
-        }
-    },
-    sotm: {
-        id: 'award-sotm',
-        layout: 'certificate_grid',
-        title: 'Site of the Month Awards',
-        items: [],
-        platformConfig: {
-            label: 'AWARD',
-            color: '#1a1a1a',
-            icon: '📅'
-        }
-    },
-    other: {
-        id: 'award-other',
-        layout: 'certificate_grid',
-        title: 'Other Awards',
-        items: [],
-        platformConfig: {
-            label: 'PRESTIGE',
-            color: '#1a1a1a',
-            icon: '👑'
-        }
-    }
+    sotd: ABOUT_OVERLAY_CARDS.academics,
+    sotm: ABOUT_OVERLAY_CARDS.interests,
+    other: ABOUT_OVERLAY_CARDS.toolkit
 };
 
 /**
@@ -498,13 +439,13 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
     const sotyCardPaintedRef = useRef();
     const sotyHideDelayRef = useRef();
 
-    // Load textures
-    const sotyTexture = useLoader(THREE.TextureLoader, '/textures/about/SOTY.webp');
-    const sotdTexture = useLoader(THREE.TextureLoader, '/textures/about/SOTD.webp');
-    const sotmTexture = useLoader(THREE.TextureLoader, '/textures/about/SOTM.webp');
-    const sotyPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/SOTY.webp' : '/textures/about/SOTY_painted.webp');
-    const sotdPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/SOTD.webp' : '/textures/about/SOTD_painted.webp');
-    const sotmPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/SOTM.webp' : '/textures/about/SOTM_painted.webp');
+    // Load original Deepansh milestone textures
+    const sotdTexture = useLoader(THREE.TextureLoader, '/textures/about/milestone_srm.webp');
+    const sotmTexture = useLoader(THREE.TextureLoader, '/textures/about/milestone_cv_ai.webp');
+    const sotyTexture = useLoader(THREE.TextureLoader, '/textures/about/milestone_fullstack.webp');
+    const sotdPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/milestone_srm.webp' : '/textures/about/milestone_srm_painted.webp');
+    const sotmPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/milestone_cv_ai.webp' : '/textures/about/milestone_cv_ai_painted.webp');
+    const sotyPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/milestone_fullstack.webp' : '/textures/about/milestone_fullstack_painted.webp');
     const buttonTexture = useLoader(THREE.TextureLoader, '/textures/about/button.webp');
     const buttonPaintedTexture = useLoader(THREE.TextureLoader, isTouch ? '/textures/about/button.webp' : '/textures/about/button_painted.webp');
 
@@ -519,8 +460,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
     buttonPaintedTexture.colorSpace = THREE.SRGBColorSpace;
 
     // Calculate aspect ratios
-    // LEGACY FIX: Use original dimensions for cards (2400x1760) and buttons (894x208)
-    const cardLegacyAspect = 2400 / 1760;
+    const cardLegacyAspect = 2048 / 1024;
     const buttonLegacyAspect = 894 / 208;
 
     // Base height for cards
@@ -624,7 +564,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/RubikScribble-Regular.ttf"
             >
-                AWARDS
+                MILESTONES
             </Text>
 
             {/* === SOTD (behind SOTY, rendered second) === */}
@@ -673,18 +613,18 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    SOTD
+                    EDUCATION
                 </Text>
                 {/* AWARD COUNT */}
                 <Text
                     position={[-0.05, 0, 0.01]}
-                    fontSize={0.8}
+                    fontSize={0.65}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    {awardsData.sotd.items.length}
+                    SRM
                 </Text>
             </group>
 
@@ -734,18 +674,18 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    SOTM
+                    RESEARCH
                 </Text>
                 {/* AWARD COUNT */}
                 <Text
                     position={[-0.05, 0, 0.01]}
-                    fontSize={0.8}
+                    fontSize={0.65}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    {awardsData.sotm.items.length}
+                    CV/AI
                 </Text>
             </group>
 
@@ -794,18 +734,18 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    OTHER
+                    SYSTEMS
                 </Text>
                 {/* AWARD COUNT */}
                 <Text
                     position={[-0.05, 0, 0.01]}
-                    fontSize={0.8}
+                    fontSize={0.65}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    {awardsData.other.items.length}
+                    DEV
                 </Text>
             </group>
         </group>
@@ -832,7 +772,6 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
     freelanceTexture.colorSpace = THREE.SRGBColorSpace;
 
     // Calculate aspect ratios to keep images 1:1 (not stretched)
-    // LEGACY FIX: Use original dimensions (2816x1536)
     const islandLegacyAspect = 2816 / 1536;
     const uoAspect = islandLegacyAspect;
     const freelanceAspect = islandLegacyAspect;
@@ -855,8 +794,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
         const distanceZ = z + scrollProgress - 55;
 
         // Reveal effect (islands float up from below clouds)
-        // === EDYTUJ TUTAJ (JOURNEY) ===
-        const revealStart = -100; // Wcześniejszy start
+        const revealStart = -100;
         const revealEnd = -20;
         let revealFactor = 0;
 
@@ -871,7 +809,6 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
         // Floating animation (bobbing)
         // UO Island (Left)
         if (uoRef.current) {
-            // === EDYTUJ POZYCJE TUTAJ (UO) ===
             const startY = -2;
             const endY = 1.5;
 
@@ -882,7 +819,6 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
 
         // Freelance Island (Right)
         if (freelanceRef.current) {
-            // === EDYTUJ POZYCJE TUTAJ (Freelance) ===
             const startY = -1;
             const endY = 2.5;
 
@@ -915,7 +851,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                 anchorY="middle"
                 font="/fonts/CabinSketch-Regular.ttf"
             >
-                My path so far...
+                SRM University · Computer Science &amp; Engineering
             </Text>
 
             {/* === UO ISLAND (Left) === */}
@@ -928,16 +864,16 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* NAPIS NA WYSPIE (UO) - EDYTUJ TUTAJ */}
+                {/* NAPIS NA WYSPIE (UO) */}
                 <Text
-                    position={[0.1, -0.85, 0.1]} // POZYCJA (X, Y, Z)
-                    fontSize={0.4}           // WIELKOŚĆ
+                    position={[0.1, -0.85, 0.1]}
+                    fontSize={0.35}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    2025-NOW
+                    SRM CSE
                 </Text>
             </group>
 
@@ -951,16 +887,16 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* NAPIS NA WYSPIE (Freelance) - EDYTUJ TUTAJ */}
+                {/* NAPIS NA WYSPIE (Freelance) */}
                 <Text
-                    position={[0, -0.65, 0.1]} // POZYCJA (X, Y, Z)
-                    fontSize={0.5}           // WIELKOŚĆ
+                    position={[0, -0.65, 0.1]}
+                    fontSize={0.35}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    2023-NOW
+                    PROJECT LABS
                 </Text>
             </group>
         </group>

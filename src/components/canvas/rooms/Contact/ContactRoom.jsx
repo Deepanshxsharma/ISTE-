@@ -17,6 +17,7 @@ import { useAudio } from '../../../../context/AudioManager';
 // ============================================
 import { useTexture } from '@react-three/drei';
 import { usePaintMaterial } from '../Gallery/usePaintMaterial';
+import { CONTACT_INFO } from '../../../../config/portfolioData';
 
 const WAVE_LAYERS = 4;
 
@@ -248,42 +249,8 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
     }, [hasSignaledReady.current, showRoom, camera]);
 
     const handleMailSelect = () => {
-        // Awaryjne przekierowanie mailto:
-        window.location.href = 'mailto:tomszma12@gmail.com';
-
-        /* 
-        setShowSelection(false);
-
-        // Trigger the look down sequence
-        hasAnimatedDown.current = true;
-        hasExitTriggered.current = false;
-
-        // Capture landing rotation (usually 0,0,0)
-        targetRotX.current = camera.rotation.x;
-        targetRotY.current = camera.rotation.y;
-        targetRotZ.current = camera.rotation.z;
-
-        // Start sequence directly
-        setCurrentPhase(PHASE.LOOKING_DOWN);
-
-        // 1. SET X (Looking down)
-        targetRotX.current = CAMERA_SETTINGS.lookDownAngle;
-
-        // 2. SET Y (Turning)
-        if (CAMERA_SETTINGS.forceCenterY !== null) {
-            targetRotY.current = CAMERA_SETTINGS.forceCenterY;
-        }
-
-        // 3. SET Z (Tilt)
-        if (CAMERA_SETTINGS.forceStraightZ !== null) {
-            targetRotZ.current = CAMERA_SETTINGS.forceStraightZ;
-        }
-
-        // Phase transition
-        setTimeout(() => {
-            setCurrentPhase(PHASE.WRITING);
-        }, 1500);
-        */
+        // Direct email dispatch to Deepansh Sharma
+        window.location.href = `mailto:${CONTACT_INFO.email}`;
     };
 
     // Frame Loop
@@ -404,7 +371,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 rotation={[0, 0.2, 0]}
                 texturePath="/textures/contact/beczka.webp"
                 label="LINKEDIN"
-                onClick={() => window.open('https://www.linkedin.com/in/tomasz-szmajda-259337305/', '_blank')}
+                onClick={() => window.open(CONTACT_INFO.linkedin, '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -414,27 +381,27 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 rotation={[0, 0.3, 0]}
                 texturePath="/textures/contact/beczka.webp"
                 label="GITHUB"
-                onClick={() => window.open('https://github.com/ITomPoland', '_blank')}
+                onClick={() => window.open(CONTACT_INFO.github, '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
-            {/* FACEBOOK */}
+            {/* SRM UNIVERSITY */}
             <SocialBarrel
                 position={isMobile ? [1.2, 0.5, -10] : [3, 0.5, -10]}
                 rotation={[0, -0.2, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="FACEBOOK"
-                onClick={() => window.open('https://www.facebook.com/people/ITom/61586563487664/', '_blank')}
+                label="SRM CSE"
+                onClick={() => window.open('https://www.srmist.edu.in', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
-            {/* INSTAGRAM */}
+            {/* PORTFOLIO / PROJECTS */}
             <SocialBarrel
                 position={isMobile ? [1.5, -0.3, -7] : [5, -0.3, -8]}
                 rotation={[0, -0.3, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="INSTAGRAM"
-                onClick={() => window.open('https://www.instagram.com/itom.dev/', '_blank')}
+                label="PROJECTS"
+                onClick={() => window.open(CONTACT_INFO.github, '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
